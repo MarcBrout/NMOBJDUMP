@@ -133,6 +133,7 @@ void		*createMmap(char const *filename)
 bool        addNode64(t_node **root, char const *name, Elf64_Sym *sym, uint32_t type)
 {
   t_node    *node;
+    t_node  *cur;
 
   if (!(node = malloc(sizeof(*node))))
     return (false);
@@ -150,8 +151,10 @@ bool        addNode64(t_node **root, char const *name, Elf64_Sym *sym, uint32_t 
     *root = node;
   else
     {
-      node->next = *root;
-      *root = node;
+        cur = *root;
+        while (cur->next)
+            cur = cur->next;
+      cur->next = node;
     }
   return (true);
 }
@@ -406,7 +409,7 @@ int       mystrcmp(char const *str1, char const *str2)
 
     res = tolower(str1[pos1]) - tolower(str2[pos2]);
 
-  return (!res ? pos1 > pos2 ? -1 : 0 : res);
+  return (res);
 }
 
 void		swapNodes(t_node *cur, t_node *next)

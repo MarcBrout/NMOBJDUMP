@@ -68,10 +68,9 @@ char        compareV64(Elf64_Ehdr *elf, Elf64_Sym *symbol)
 
 char        compareW64(Elf64_Ehdr *elf, Elf64_Sym *symbol)
 {
-  //Elf64_Shdr  *section;
     (void)elf;
-  //section = elf64_section(elf, symbol->st_shndx);
-  if (ELF64_ST_TYPE(symbol->st_info)  == STT_NOTYPE &&
+  if ((ELF64_ST_TYPE(symbol->st_info)  == STT_NOTYPE ||
+      symbol->st_shndx == SHN_UNDEF) &&
       ELF64_ST_BIND(symbol->st_info) == STB_WEAK)
   {
     if (symbol->st_shndx != SHN_UNDEF)
