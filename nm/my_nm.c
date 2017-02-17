@@ -11,32 +11,37 @@
 #include <ar.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "nodes32.h"
 #include "nodes64.h"
 #include "elfParser64.h"
 #include "elfParser32.h"
 
-bool		processElf32(void *data, const char *file)
+bool		processElf32(void *data, const char *file, bool mult)
 {
   t_node	*root;
 
   root = NULL;
   if (!parseElf32(data, &root, file))
-    return (84);
-  sortListAsc(&root);
-  printList64(root);
+      return (0);
+    if (mult)
+        printf("\n%s:\n", file);
+    sortListAsc(&root);
+  printList32(root);
   freeList(&root);
   return (0);
 }
 
-bool		processElf64(void *data, const char *file)
+bool		processElf64(void *data, const char *file, bool mult)
 {
   t_node	*root;
 
   root = NULL;
   if (!parseElf64(data, &root, file))
     return (84);
-  sortListAsc(&root);
+    if (mult)
+        printf("\n%s:\n", file);
+    sortListAsc(&root);
   printList64(root);
   freeList(&root);
   return (0);
@@ -57,17 +62,17 @@ bool            processArchive(void *data, const char *file)
 	return (false);
       if (isArchitecture64(elf, true))
 	{
-	  if (processElf64(elf, file))
+	  if (processElf64(elf, file, true))
 	    return (false);
         }
-      else if (processElf32(elf, file))
+      else if (processElf32(elf, file, true))
 	return (false);
       ar = ((void*)ar + strtol(ar->ar_size, NULL, 0));
     }
   return (true);
 }
 
-int		parseFile(const char *file)
+int		parseFile(const char *file, bool mult)
 {
   void		*data;
 
@@ -85,10 +90,10 @@ int		parseFile(const char *file)
 	return (2);
       if (isArchitecture64(data, true))
 	{
-	  if (processElf64(data, file))
+	  if (processElf64(data, file, mult))
 	    return (false);
         }
-      else if (processElf32(data, file))
+      else if (processElf32(data, file, mult))
 	return (false);
     }
   return (0);
@@ -100,14 +105,14 @@ int		main(int ac, char **av)
 
   if (ac < 2)
     {
-      if (parseFile("a.out"))
+      if (parseFile("a.out", false))
 	return (84);
       return (0);
     }
   i = 1;
   while (i < ac)
     {
-      if (parseFile(av[i]))
+      if (parseFile(av[i], ac > 2))
 	return (84);
       ++i;
     }

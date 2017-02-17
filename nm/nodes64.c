@@ -20,7 +20,7 @@ void		printList64(t_node const *root)
   cur = root;
   while (cur)
     {
-      if (cur->addr == 0 || cur->type == 'U')
+      if (cur->type == 'U' || cur->type == 'w')
 	printf("                 %c %s\n", cur->type, cur->symbol);
       else
         {

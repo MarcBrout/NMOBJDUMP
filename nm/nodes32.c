@@ -20,11 +20,11 @@ void		printList32(t_node const *root)
   cur = root;
   while (cur)
     {
-      if (cur->addr == 0 || cur->type == 'U')
+      if (cur->addr == 'w' || cur->type == 'U')
 	printf("         %c %s\n", cur->type, cur->symbol);
       else
         {
-	  printf("%016llx %c %s\n",
+	  printf("%08llx %c %s\n",
 		 (long long)cur->addr, cur->type, cur->symbol);
         }
       cur = cur->next;

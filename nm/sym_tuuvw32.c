@@ -87,13 +87,15 @@ char        compareW32(Elf32_Ehdr *elf, Elf32_Sym *symbol)
 {
   (void)elf;
   if ((ELF32_ST_TYPE(symbol->st_info)  == STT_NOTYPE ||
-       symbol->st_shndx == SHN_UNDEF || symbol->st_other == STV_DEFAULT) &&
+       symbol->st_shndx == SHN_UNDEF ||
+       ELF32_ST_VISIBILITY(symbol->st_other) == STV_DEFAULT ||
+       ELF32_ST_VISIBILITY(symbol->st_other) == STV_HIDDEN) &&
       ELF32_ST_BIND(symbol->st_info) == STB_WEAK)
-    {
-      if (symbol->st_shndx != SHN_UNDEF)
-	return ('W');
-      else
-	return ('w');
-    }
+  {
+    if (symbol->st_shndx != SHN_UNDEF)
+      return ('W');
+    else
+      return ('w');
+  }
   return (0);
 }

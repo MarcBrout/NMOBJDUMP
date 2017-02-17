@@ -76,6 +76,8 @@ void		freeList(t_node **root)
   while (cur)
     {
       tmp = cur->next;
+        if (cur->symbol)
+            free(cur->symbol);
       free(cur);
       cur = tmp;
     }
@@ -100,7 +102,7 @@ void		sortListAsc(t_node **root)
 	    ret = mystrcmpCase(cur->symbol, cur->next->symbol);
 	  if (ret > 0 ||
 	      (!ret && cur->addr > cur->next->addr) ||
-	      (!ret && cur->addr == cur->next->addr &&
+	      (!ret && cur->addr <= cur->next->addr &&
 	       tolower((char)cur->type) > tolower((char)cur->next->type)))
             {
 	      swapNodes(cur, cur->next);
