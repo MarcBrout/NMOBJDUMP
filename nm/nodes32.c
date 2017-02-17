@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:55:48 2017 brout_m
-** Last update Fri Feb 17 15:56:52 2017 brout_m
+** Last update Fri Feb 17 16:33:40 2017 brout_m
 */
 
 #include <stdio.h>
@@ -24,7 +24,8 @@ void		printList32(t_node const *root)
 	printf("         %c %s\n", cur->type, cur->symbol);
       else
         {
-	  printf("%016llx %c %s\n", (long long)cur->addr, cur->type, cur->symbol);
+	  printf("%016llx %c %s\n",
+		 (long long)cur->addr, cur->type, cur->symbol);
         }
       cur = cur->next;
     }

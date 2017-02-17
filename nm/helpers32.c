@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:52:55 2017 brout_m
-** Last update Fri Feb 17 15:53:22 2017 brout_m
+** Last update Fri Feb 17 16:33:41 2017 brout_m
 */
 
 #include <elf.h>
@@ -25,7 +25,8 @@ char *elf32_strtable(Elf32_Ehdr *elf)
 {
   if (elf->e_shstrndx == SHN_UNDEF)
     return (NULL);
-  return ((char *)((void*)elf + elf32_section(elf, elf->e_shstrndx)->sh_offset));
+  return ((char *)((void*)elf +
+		   elf32_section(elf, elf->e_shstrndx)->sh_offset));
 }
 
 char		*elf32_name(Elf32_Ehdr *elf, int off)

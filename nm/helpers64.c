@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:53:39 2017 brout_m
-** Last update Fri Feb 17 15:54:05 2017 brout_m
+** Last update Fri Feb 17 16:33:41 2017 brout_m
 */
 
 #include <elf.h>
@@ -28,7 +28,8 @@ char *elf64_strtable(Elf64_Ehdr *elf)
 {
   if (elf->e_shstrndx == SHN_UNDEF)
     return (NULL);
-  return ((char *)((void*)elf + elf64_section(elf, elf->e_shstrndx)->sh_offset));
+  return ((char *)((void*)elf +
+		   elf64_section(elf, elf->e_shstrndx)->sh_offset));
 }
 
 char		*elf64_name(Elf64_Ehdr *elf, int off)

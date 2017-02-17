@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Mon Feb 13 11:00:58 2017 brout_m
-** Last update Fri Feb 17 16:16:16 2017 brout_m
+** Last update Fri Feb 17 16:33:42 2017 brout_m
 */
 
 #include <sys/mman.h>
@@ -124,13 +124,15 @@ bool		parseElf32(void *data, t_node **root, const char *filename)
   Elf32_Ehdr	*elf32;
 
   elf32 = data;
-  strtab = getSectionData32(data, elf32_sheader(elf32), ".strtab", elf32->e_shnum);
+  strtab = getSectionData32(data,
+			    elf32_sheader(elf32), ".strtab", elf32->e_shnum);
   if (!strtab)
     {
       fprintf(stderr, "my_nm: %s: aucun symbole\n", filename);
       return (false);
     }
-  symboleSection = getSection32(elf32_sheader(elf32), SHT_SYMTAB, elf32->e_shnum);
+  symboleSection = getSection32(elf32_sheader(elf32),
+				SHT_SYMTAB, elf32->e_shnum);
   if (!symboleSection)
     {
       return (false);
