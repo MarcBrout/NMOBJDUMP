@@ -10,6 +10,7 @@
 
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 #include "commons.h"
 
 static int	mystrcmpNoCase(char const *str1, char const *str2)

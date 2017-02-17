@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Tue Feb 14 21:32:52 2017 brout_m
-** Last update Fri Feb 17 16:08:14 2017 brout_m
+** Last update Fri Feb 17 17:25:14 2017 brout_m
 */
 
 #include <elf.h>
@@ -88,8 +88,8 @@ char        compareW64(Elf64_Ehdr *elf, Elf64_Sym *symbol)
   (void)elf;
   if ((ELF64_ST_TYPE(symbol->st_info)  == STT_NOTYPE ||
        symbol->st_shndx == SHN_UNDEF ||
-          ELF64_ST_VISIBILITY(symbol->st_other) == STV_DEFAULT ||
-      ELF64_ST_VISIBILITY(symbol->st_other) == STV_HIDDEN) &&
+       ELF64_ST_VISIBILITY(symbol->st_other) == STV_DEFAULT ||
+       ELF64_ST_VISIBILITY(symbol->st_other) == STV_HIDDEN) &&
       ELF64_ST_BIND(symbol->st_info) == STB_WEAK)
     {
       if (symbol->st_shndx != SHN_UNDEF)
