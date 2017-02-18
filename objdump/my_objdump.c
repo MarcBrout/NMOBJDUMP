@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 18:35:45 2017 brout_m
-** Last update Sat Feb 18 18:35:53 2017 brout_m
+** Last update Sat Feb 18 18:48:07 2017 brout_m
 */
 
 #include <stdbool.h>
@@ -63,7 +63,6 @@ bool		processElf32(void *data, const char *file, bool mult)
   freeDumpList(root);
   return (0);
 }
-
 
 int		parseFile(const char *file, bool mult)
 {

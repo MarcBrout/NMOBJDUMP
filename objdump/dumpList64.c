@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 17:30:27 2017 brout_m
-** Last update Sat Feb 18 18:26:16 2017 brout_m
+** Last update Sat Feb 18 18:48:21 2017 brout_m
 */
 
 #include <stdio.h>
@@ -69,7 +69,6 @@ static size_t		dumpChar(void *data,
   printf("\n");
   return (i);
 }
-
 
 static void	dumpData(t_dump const *cur)
 {

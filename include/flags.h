@@ -1,5 +1,15 @@
-#ifndef __BFD_H_SEEN__
-#define __BFD_H_SEEN__
+/*
+** flags.h for objdump in /home/brout_m/rendu/system/PSU_2016_nmobjdump/objdump
+**
+** Made by brout_m
+** Login   <marc.brout@epitech.eu>
+**
+** Started on  Sat Feb 18 18:48:54 2017 brout_m
+** Last update Sat Feb 18 18:49:58 2017 brout_m
+*/
+
+#ifndef BFD_H_
+# define BFD_H_
 
 /* Values that may appear in the flags field of a BFD.  These also
    appear in the object_flags field of the bfd_target structure, where
@@ -9,38 +19,38 @@
    to another, and are not necessarily correct).  */
 
 /* No flags.  */
-#define BFD_NO_FLAGS    0x00
+# define BFD_NO_FLAGS    0x00
 
 /* BFD contains relocation entries.  */
-#define HAS_RELOC       0x01
+# define HAS_RELOC       0x01
 
 /* BFD is directly executable.  */
-#define EXEC_P          0x02
+# define EXEC_P          0x02
 
 /* BFD has line number information (basically used for F_LNNO in a
    COFF header).  */
-#define HAS_LINENO      0x04
+# define HAS_LINENO      0x04
 
 /* BFD has debugging information.  */
-#define HAS_DEBUG       0x08
+# define HAS_DEBUG       0x08
 
 /* BFD has symbols.  */
-#define HAS_SYMS        0x10
+# define HAS_SYMS        0x10
 
 /* BFD has local symbols (basically used for F_LSYMS in a COFF
    header).  */
-#define HAS_LOCALS      0x20
+# define HAS_LOCALS      0x20
 
 /* BFD is a dynamic object.  */
-#define DYNAMIC         0x40
+# define DYNAMIC         0x40
 
 /* Text section is write protected (if D_PAGED is not set, this is
    like an a.out NMAGIC file) (the linker sets this by default, but
    clears it for -r or -N).  */
-#define WP_TEXT         0x80
+# define WP_TEXT         0x80
 
 /* BFD is dynamically paged (this is like an a.out ZMAGIC file) (the
    linker sets this by default, but clears it for -r or -n or -N).  */
-#define D_PAGED         0x100
+# define D_PAGED         0x100
 
-#endif
+#endif /* !BFD_H_  */
