@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:54:21 2017 brout_m
-** Last update Fri Feb 17 16:19:01 2017 brout_m
+** Last update Fri Feb 17 17:38:57 2017 brout_m
 */
 
 #include <ar.h>
@@ -24,9 +24,9 @@ bool		processElf32(void *data, const char *file, bool mult)
   root = NULL;
   if (!parseElf32(data, &root, file))
       return (0);
-    if (mult)
-        printf("\n%s:\n", file);
-    sortListAsc(&root);
+  if (mult)
+    printf("\n%s:\n", file);
+  sortListAsc(&root);
   printList32(root);
   freeList(&root);
   return (0);
@@ -39,9 +39,9 @@ bool		processElf64(void *data, const char *file, bool mult)
   root = NULL;
   if (!parseElf64(data, &root, file))
     return (84);
-    if (mult)
-        printf("\n%s:\n", file);
-    sortListAsc(&root);
+  if (mult)
+    printf("\n%s:\n", file);
+  sortListAsc(&root);
   printList64(root);
   freeList(&root);
   return (0);

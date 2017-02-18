@@ -5,7 +5,7 @@
 ## Login   <marc.brout@epitech.eu>
 ##
 ## Started on  Wed Feb 15 17:27:52 2017 brout_m
-## Last update Thu Feb 16 17:20:30 2017 brout_m
+## Last update Sat Feb 18 18:14:23 2017 brout_m
 ##
 
 DEBUG=		no
@@ -15,6 +15,8 @@ NM=		my_nm
 OBJDUMP=	my_objdump
 
 NMFOLDER=	nm/
+
+OBJDUMPFOLDER=	objdump/
 
 NMFILES=	cmpfuncs.c \
 		commons.c \
@@ -32,9 +34,21 @@ NMFILES=	cmpfuncs.c \
 		sym_tuuvw32.c \
 		my_nm.c
 
+OBJDUMPFILES=	header64.c \
+		dumpList64.c \
+		my_objdump.c \
+		nodeify64.c
+
 NMSRC=		$(addprefix $(NMFOLDER), $(NMFILES))
 
+OBJDUMPSRC=	$(addprefix $(OBJDUMPFOLDER), $(OBJDUMPFILES)) \
+		$(NMFOLDER)/helpers64.c \
+		$(NMFOLDER)/commons.c
+
+
 NMOBJ=		$(NMSRC:.c=.o)
+
+OBJDUMPOBJ=	$(OBJDUMPSRC:.c=.o)
 
 INC=		-Iinclude/
 
@@ -46,18 +60,25 @@ else
 CFLAGS=		-W -Wall -Wextra -Werror $(INC)
 endif
 
-$(NM): $(NMOBJ)
+$(NM): $(OBJDUMP) $(NMOBJ)
 	$(CC) -o $(NM) $(NMOBJ) $(INC)
+
+$(OBJDUMP): $(OBJDUMPOBJ)
+	$(CC) -o $(OBJDUMP) $(OBJDUMPOBJ) $(INC)
 
 nm: $(NM)
 
-all: nm
+objdump: $(OBJDUMP)
+
+all: nm objdump
 
 clean:
 	rm -rf $(NMOBJ)
+	rm -rf $(OBJDUMPOBJ)
 
 fclean: clean
 	rm -rf $(NM)
+	rm -rf $(OBJDUMP)
 
 re: fclean all
 
