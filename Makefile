@@ -5,7 +5,7 @@
 ## Login   <marc.brout@epitech.eu>
 ##
 ## Started on  Wed Feb 15 17:27:52 2017 brout_m
-## Last update Sat Feb 18 18:14:23 2017 brout_m
+## Last update Sat Feb 18 18:41:28 2017 brout_m
 ##
 
 DEBUG=		no
@@ -35,14 +35,18 @@ NMFILES=	cmpfuncs.c \
 		my_nm.c
 
 OBJDUMPFILES=	header64.c \
+		header32.c \
 		dumpList64.c \
+		dumpList32.c \
 		my_objdump.c \
-		nodeify64.c
+		nodeify64.c \
+		nodeify32.c
 
 NMSRC=		$(addprefix $(NMFOLDER), $(NMFILES))
 
 OBJDUMPSRC=	$(addprefix $(OBJDUMPFOLDER), $(OBJDUMPFILES)) \
 		$(NMFOLDER)/helpers64.c \
+		$(NMFOLDER)/helpers32.c \
 		$(NMFOLDER)/commons.c
 
 
@@ -60,7 +64,9 @@ else
 CFLAGS=		-W -Wall -Wextra -Werror $(INC)
 endif
 
-$(NM): $(OBJDUMP) $(NMOBJ)
+all: nm objdump
+
+$(NM): $(NMOBJ)
 	$(CC) -o $(NM) $(NMOBJ) $(INC)
 
 $(OBJDUMP): $(OBJDUMPOBJ)
@@ -69,8 +75,6 @@ $(OBJDUMP): $(OBJDUMPOBJ)
 nm: $(NM)
 
 objdump: $(OBJDUMP)
-
-all: nm objdump
 
 clean:
 	rm -rf $(NMOBJ)
@@ -82,4 +86,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re nm objdump first

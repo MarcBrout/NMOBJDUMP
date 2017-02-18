@@ -1,11 +1,11 @@
 /*
-** nodeify64.c for objdump in PSU_2016_nmobjdump/objdump
+** nodeify32.c for objdump in PSU_2016_nmobjdump/objdump
 **
 ** Made by brout_m
 ** Login   <marc.brout@epitech.eu>
 **
-** Started on  Sat Feb 18 18:35:01 2017 brout_m
-** Last update Sat Feb 18 18:39:25 2017 brout_m
+** Started on  Sat Feb 18 18:35:24 2017 brout_m
+** Last update Sat Feb 18 18:39:14 2017 brout_m
 */
 
 #include <stdbool.h>
@@ -13,11 +13,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "flags.h"
-#include "helpers64.h"
-#include "dump64.h"
+#include "helpers32.h"
+#include "dump32.h"
 
-static bool	addDumpNode64(void *data,
-			      Elf64_Shdr *section,
+static bool	addDumpNode32(void *data,
+			      Elf32_Shdr *section,
 			      t_dump **root)
 {
   t_dump	*node;
@@ -27,7 +27,7 @@ static bool	addDumpNode64(void *data,
   if (!node)
     return (false);
   node->data = data + section->sh_offset;
-  node->sh_name = elf64_name(data, section->sh_name);
+  node->sh_name = elf32_name(data, section->sh_name);
   node->size = section->sh_size;
   node->off = section->sh_addr;
   node->next = NULL;
@@ -43,12 +43,12 @@ static bool	addDumpNode64(void *data,
   return (true);
 }
 
-bool		isPrintableSection64(Elf64_Ehdr *elf,
-				     Elf64_Shdr *section)
+bool		isPrintableSection32(Elf32_Ehdr *elf,
+				     Elf32_Shdr *section)
 {
   char		*name;
 
-  name = elf64_name(elf, section->sh_name);
+  name = elf32_name(elf, section->sh_name);
   if (!name)
     return (false);
   return ((!(elf->e_type == ET_REL && section->sh_type == SHT_RELA) &&
@@ -59,7 +59,7 @@ bool		isPrintableSection64(Elf64_Ehdr *elf,
 	  !strcmp(name, ".dynstr"));
 }
 
-static unsigned int checkSection(Elf64_Shdr *section,
+static unsigned int checkSection(Elf32_Shdr *section,
 				 unsigned int flags)
 {
   if (section->sh_type == SHT_REL)
@@ -71,17 +71,17 @@ static unsigned int checkSection(Elf64_Shdr *section,
   return (flags);
 }
 
-bool		nodeifyElf64(Elf64_Ehdr *elf,
+bool		nodeifyElf32(Elf32_Ehdr *elf,
 			     t_dump **root,
 			     unsigned int *flags)
 {
   int		i;
-  Elf64_Shdr	*section;
+  Elf32_Shdr	*section;
 
   i = 0;
   while (i < elf->e_shnum)
     {
-      section = elf64_section(elf, i);
+      section = elf32_section(elf, i);
       if (!section)
 	return (false);
       if (section->sh_type == SHT_NOBITS)
@@ -90,9 +90,9 @@ bool		nodeifyElf64(Elf64_Ehdr *elf,
 	  continue;
         }
       *flags = checkSection(section, *flags);
-      if (isPrintableSection64(elf, section) &&
+      if (isPrintableSection32(elf, section) &&
 	  section->sh_size != 0 &&
-	  !addDumpNode64(elf, section, root))
+	  !addDumpNode32(elf, section, root))
 	return (false);
       ++i;
     }
