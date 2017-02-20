@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 18:35:45 2017 brout_m
-** Last update Sat Feb 18 18:48:07 2017 brout_m
+** Last update Mon Feb 20 09:23:44 2017 marc brout
 */
 
 #include <stdbool.h>
@@ -30,7 +30,7 @@ void		freeDumpList(t_dump *root)
     }
 }
 
-bool		processElf64(void *data, const char *file, bool mult)
+bool		processElf64(void *data, const char *file)
 {
   t_dump	*root;
   unsigned int	flags;
@@ -39,15 +39,13 @@ bool		processElf64(void *data, const char *file, bool mult)
   flags = BFD_NO_FLAGS;
   if (!nodeifyElf64(data, &root, &flags))
     return (84);
-  if (mult)
-    printf("\n%s:\n", file);
   dumpHeader64(data, file, flags);
   dumpList64(root);
   freeDumpList(root);
   return (0);
 }
 
-bool		processElf32(void *data, const char *file, bool mult)
+bool		processElf32(void *data, const char *file)
 {
   t_dump	*root;
   unsigned int	flags;
@@ -56,15 +54,13 @@ bool		processElf32(void *data, const char *file, bool mult)
   flags = BFD_NO_FLAGS;
   if (!nodeifyElf32(data, &root, &flags))
     return (84);
-  if (mult)
-    printf("\n%s:\n", file);
   dumpHeader32(data, file, flags);
   dumpList32(root);
   freeDumpList(root);
   return (0);
 }
 
-int		parseFile(const char *file, bool mult)
+int		parseFile(const char *file)
 {
   void		*data;
 
@@ -74,10 +70,10 @@ int		parseFile(const char *file, bool mult)
     return (2);
   if (isArchitecture64(data, true))
     {
-      if (processElf64(data, file, mult))
+      if (processElf64(data, file))
 	return (false);
     }
-  else if (processElf32(data, file, mult))
+  else if (processElf32(data, file))
     return (false);
   return (0);
 }
@@ -88,14 +84,14 @@ int		main(int ac, char **av)
 
   if (ac < 2)
     {
-      if (parseFile("a.out", false))
+      if (parseFile("a.out"))
 	return (84);
       return (0);
     }
   i = 1;
   while (i < ac)
     {
-      if (parseFile(av[i], ac > 2))
+      if (parseFile(av[i]))
 	return (84);
       ++i;
     }
