@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 18:35:45 2017 brout_m
-** Last update Fri Feb 24 16:10:18 2017 marc brout
+** Last update Fri Feb 24 17:20:51 2017 brout_m
 */
 
 #include <stdbool.h>
@@ -87,7 +87,7 @@ int		main(int ac, char **av)
 {
   int		i;
   int		count;
-  
+
   if (ac < 2)
     {
       if (parseFile(av[0], "a.out"))

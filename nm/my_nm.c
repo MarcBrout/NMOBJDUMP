@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:54:21 2017 brout_m
-** Last update Fri Feb 24 16:09:57 2017 marc brout
+** Last update Fri Feb 24 17:20:23 2017 brout_m
 */
 
 #include <ar.h>
@@ -52,7 +52,7 @@ int		parseFile(const char * const prog,
 {
   void		*data;
   size_t	size;
-  
+
   if ((data = createMmap(prog, file, &size)) == (void*)-1)
     return (1);
   if (!isElfValid(prog, data, file, true))
@@ -75,7 +75,7 @@ int		main(int ac, char **av)
 {
   int		i;
   int		count;
-  
+
   if (ac < 2)
     {
       if (parseFile(av[0], "a.out", false))

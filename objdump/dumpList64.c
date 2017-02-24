@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 17:30:27 2017 brout_m
-** Last update Fri Feb 24 08:13:27 2017 marc brout
+** Last update Fri Feb 24 17:23:15 2017 brout_m
 */
 
 #include <stdio.h>
@@ -71,16 +71,9 @@ static size_t		dumpChar(void *data,
   return (i);
 }
 
-static int countDigit(uint64_t num)
-{
-  char	       snum[100];
-
-  sprintf(snum, "%llx", (long long)num);
-  return (strlen(snum));
-}
-
 static void	dumpData(t_dump const *cur)
 {
+  char	       snum[100];
   void		*data;
   uint64_t	off;
   int		digit;
@@ -89,7 +82,8 @@ static void	dumpData(t_dump const *cur)
   i = 0;
   data = cur->data;
   off = cur->off;
-  digit = countDigit(off + cur->size);
+  sprintf(snum, "%llx", (long long)(off + cur->size));
+  digit = strlen(snum);
   while (i < cur->size)
     {
       printf(" %0*llx", digit > 4 ? digit : 4, (long long)off);
