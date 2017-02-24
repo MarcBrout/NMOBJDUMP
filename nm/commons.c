@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:44:01 2017 brout_m
-** Last update Fri Feb 17 15:45:39 2017 brout_m
+** Last update Fri Feb 24 10:22:33 2017 marc brout
 */
 
 #include <stddef.h>
@@ -18,36 +18,36 @@
 #include <unistd.h>
 #include "elfParser32.h"
 
-size_t		fileSize(char const *filename)
+size_t		fileSize(char const * prog, char const *filename)
 {
   struct stat	file;
 
   if (stat(filename, &file) == -1)
     {
-      fprintf(stderr, "my_nm: '%s': no such file\n", filename);
+      fprintf(stderr, "%s: '%s': No such file\n", prog, filename);
       return (0);
     }
   if (file.st_size < (int)sizeof(Elf32_Ehdr))
     {
-      fprintf(stderr, "my_nm: '%s': Unknown file format\n", filename);
       return (0);
     }
   return ((size_t)file.st_size);
 }
 
-void		*createMmap(char const *filename)
+void		*createMmap(char const *prog,
+			    char const *filename,
+			    size_t *size)
 {
   int		fd;
-  size_t	size;
   void		*data;
 
-  size = fileSize(filename);
-  if (!size)
+  *size = fileSize(prog, filename);
+  if (!*size)
     return ((void*)-1);
   fd = open(filename, O_RDONLY);
   if (fd == -1)
     return ((void*)-1);
-  data = mmap(NULL, size, PROT_READ, MAP_SHARED, fd, 0);
+  data = mmap(NULL, *size, PROT_READ, MAP_SHARED, fd, 0);
   close(fd);
   return (data);
 }
@@ -61,13 +61,19 @@ bool		isArchitecture64(Elf32_Ehdr const * const elf, bool set)
   return (architecture);
 }
 
-bool		isElfValid(Elf32_Ehdr const * const elf, const char *filename)
+bool		isElfValid(char const * const prog,
+			   Elf32_Ehdr const * const elf,
+			   const char *filename,
+			   bool nm)
 {
   if (elf->e_ident[EI_MAG0] != ELFMAG0 || elf->e_ident[EI_MAG1] != ELFMAG1 ||
       elf->e_ident[EI_MAG2] != ELFMAG2 || elf->e_ident[EI_MAG3] != ELFMAG3 ||
       elf->e_ident[EI_CLASS] == ELFCLASSNONE ||
       elf->e_ident[EI_VERSION] == EV_NONE) {
-    fprintf(stderr, "my_nm: '%s': Unknown file format\n", filename);
+    if (nm)
+      fprintf(stderr, "%s: '%s': Unknown file format\n", prog, filename);
+    else
+      fprintf(stderr, "%s: %s: File format not recognized\n", prog, filename);
     return (false);
   }
   return (true);

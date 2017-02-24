@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 17:30:57 2017 brout_m
-** Last update Sat Feb 18 17:37:41 2017 brout_m
+** Last update Thu Feb 23 16:09:10 2017 marc brout
 */
 
 #include <stdio.h>
@@ -54,7 +54,7 @@ static char *flagsStr[10] = {
   "HAS_DEBUG",
   "HAS_SYMS",
   "HAS_LOCALS",
-  "DYNAMYC",
+  "DYNAMIC",
   "WP_TEXT",
   "D_PAGED"
 };

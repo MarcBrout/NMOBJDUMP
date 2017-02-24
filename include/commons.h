@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:38:47 2017 brout_m
-** Last update Fri Feb 17 16:16:05 2017 brout_m
+** Last update Fri Feb 24 10:21:28 2017 marc brout
 */
 
 #ifndef COMMONS_H
@@ -48,10 +48,19 @@ typedef char (*symCmp64)(Elf64_Ehdr *, Elf64_Sym *);
 
 void sortListAsc(t_node **root);
 void freeList(t_node **root);
-size_t fileSize(char const *filename);
-void *createMmap(char const *filename);
+size_t fileSize(char const *prog, char const *filename);
+void *createMmap(char const *prog, char const *filename, size_t *size);
 bool isArchitecture64(Elf32_Ehdr const * const elf, bool set);
-bool isElfValid(Elf32_Ehdr const * const elf, const char *filename);
+bool isElfValid(const char * const prog,
+		Elf32_Ehdr const * const elf,
+		const char *filename,
+		bool nm);
 bool isArchive(char *ar);
+int checkSize64(Elf64_Ehdr *elf, char const *prog,
+		char const *filename,
+		size_t size);
+int checkSize32(Elf32_Ehdr *elf, char const *prog,
+		char const *filename,
+		size_t size);
 
 #endif /* !COMMONS_H */

@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 18:35:45 2017 brout_m
-** Last update Mon Feb 20 09:23:44 2017 marc brout
+** Last update Fri Feb 24 10:22:05 2017 marc brout
 */
 
 #include <stdbool.h>
@@ -60,40 +60,45 @@ bool		processElf32(void *data, const char *file)
   return (0);
 }
 
-int		parseFile(const char *file)
+int		parseFile(const char * const prog, const char *file)
 {
   void		*data;
+  size_t	size;
 
-  if ((data = createMmap(file)) == (void*)-1)
+  if ((data = createMmap(prog, file, &size)) == (void*)-1)
     return (1);
-  if (!isElfValid(data, file))
-    return (2);
+  if (!isElfValid(prog, data, file, false))
+    return (1);
   if (isArchitecture64(data, true))
     {
-      if (processElf64(data, file))
-	return (false);
+      if (checkSize64(data, prog, file, size) ||
+	  processElf64(data, file))
+	return (1);
     }
-  else if (processElf32(data, file))
-    return (false);
+  else if (checkSize32(data, prog, file, size) ||
+	   processElf32(data, file))
+    return (1);
   return (0);
 }
 
 int		main(int ac, char **av)
 {
   int		i;
-
+  int		count;
+  
   if (ac < 2)
     {
-      if (parseFile("a.out"))
+      if (parseFile(av[0], "a.out"))
 	return (84);
       return (0);
     }
   i = 1;
+  count = 0;
   while (i < ac)
     {
-      if (parseFile(av[i]))
-	return (84);
+      if (parseFile(av[0], av[i]))
+	++count;
       ++i;
     }
-  return (0);
+  return (count > 0);
 }

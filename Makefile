@@ -5,7 +5,7 @@
 ## Login   <marc.brout@epitech.eu>
 ##
 ## Started on  Wed Feb 15 17:27:52 2017 brout_m
-## Last update Sat Feb 18 18:41:28 2017 brout_m
+## Last update Fri Feb 24 10:27:52 2017 marc brout
 ##
 
 DEBUG=		no
@@ -18,7 +18,8 @@ NMFOLDER=	nm/
 
 OBJDUMPFOLDER=	objdump/
 
-NMFILES=	cmpfuncs.c \
+NMFILES=	checkSize.c \
+		cmpfuncs.c \
 		commons.c \
 		elfParser32.c \
 		elfParser64.c \
@@ -45,6 +46,7 @@ OBJDUMPFILES=	header64.c \
 NMSRC=		$(addprefix $(NMFOLDER), $(NMFILES))
 
 OBJDUMPSRC=	$(addprefix $(OBJDUMPFOLDER), $(OBJDUMPFILES)) \
+		$(NMFOLDER)/checkSize.c \
 		$(NMFOLDER)/helpers64.c \
 		$(NMFOLDER)/helpers32.c \
 		$(NMFOLDER)/commons.c

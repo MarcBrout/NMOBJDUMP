@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:54:21 2017 brout_m
-** Last update Fri Feb 17 17:38:57 2017 brout_m
+** Last update Fri Feb 24 10:21:55 2017 marc brout
 */
 
 #include <ar.h>
@@ -47,74 +47,46 @@ bool		processElf64(void *data, const char *file, bool mult)
   return (0);
 }
 
-bool            processArchive(void *data, const char *file)
-{
-  size_t	size;
-  struct ar_hdr *ar;
-  void          *elf;
-
-  ar = data + SARMAG;
-  size = fileSize(file);
-  while ((void *)ar < (data + size))
-    {
-      elf = (void*)ar + sizeof(*ar);
-      if (!isElfValid(elf, file))
-	return (false);
-      if (isArchitecture64(elf, true))
-	{
-	  if (processElf64(elf, file, true))
-	    return (false);
-        }
-      else if (processElf32(elf, file, true))
-	return (false);
-      ar = ((void*)ar + strtol(ar->ar_size, NULL, 0));
-    }
-  return (true);
-}
-
-int		parseFile(const char *file, bool mult)
+int		parseFile(const char * const prog,
+			  const char *file, bool mult)
 {
   void		*data;
-
-  if ((data = createMmap(file)) == (void*)-1)
+  size_t	size;
+  
+  if ((data = createMmap(prog, file, &size)) == (void*)-1)
     return (1);
-  if (isArchive(data))
+  if (!isElfValid(prog, data, file, true))
+    return (2);
+  if (isArchitecture64(data, true))
     {
-      if (processArchive(data, file))
-	return (84);
-      return (0);
+      if (checkSize64(data, prog, file, size) ||
+	  processElf64(data, file, mult))
+	return (1);
     }
-  else
-    {
-      if (!isElfValid(data, file))
-	return (2);
-      if (isArchitecture64(data, true))
-	{
-	  if (processElf64(data, file, mult))
-	    return (false);
-        }
-      else if (processElf32(data, file, mult))
-	return (false);
-    }
+  else if (checkSize32(data, prog, file, size) ||
+	   processElf32(data, file, mult))
+    return (1);
   return (0);
 }
 
 int		main(int ac, char **av)
 {
   int		i;
-
+  int		count;
+  
   if (ac < 2)
     {
-      if (parseFile("a.out", false))
-	return (84);
+      if (parseFile(av[0], "a.out", false))
+	return (1);
       return (0);
     }
   i = 1;
+  count = 0;
   while (i < ac)
     {
-      if (parseFile(av[i], ac > 2))
-	return (84);
+      if (parseFile(av[0], av[i], ac > 2))
+	++count;
       ++i;
     }
-  return (0);
+  return (count);
 }

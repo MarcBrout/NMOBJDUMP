@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 18:35:24 2017 brout_m
-** Last update Sat Feb 18 18:39:14 2017 brout_m
+** Last update Thu Feb 23 17:50:14 2017 marc brout
 */
 
 #include <stdbool.h>
@@ -51,20 +51,25 @@ bool		isPrintableSection32(Elf32_Ehdr *elf,
   name = elf32_name(elf, section->sh_name);
   if (!name)
     return (false);
-  return ((!(elf->e_type == ET_REL && section->sh_type == SHT_RELA) &&
+  return ((!(elf->e_type == ET_REL && (section->sh_type == SHT_RELA ||
+				       section->sh_type == SHT_REL)) &&
 	  (section->sh_type != SHT_NOBITS &&
 	   section->sh_type != SHT_NULL &&
 	   section->sh_type != SHT_STRTAB &&
 	   section->sh_type != SHT_SYMTAB)) ||
-	  !strcmp(name, ".dynstr"));
+	   !strcmp(name, ".dynstr"));
 }
 
-static unsigned int checkSection(Elf32_Shdr *section,
+static unsigned int checkSection(Elf32_Ehdr *elf,
+				 Elf32_Shdr *section,
 				 unsigned int flags)
 {
-  if (section->sh_type == SHT_REL)
+  (void)elf;
+  if ((section->sh_type == SHT_REL ||
+       section->sh_type == SHT_RELA) && elf->e_type == ET_REL)
     flags = flags | HAS_RELOC;
-  else if (section->sh_type == SHT_SYMTAB)
+  else if (section->sh_type == SHT_SYMTAB ||
+	   !strcmp(".dynstr", elf32_name(elf, section->sh_name)))
     flags = flags | HAS_SYMS;
   else if (section->sh_type == SHT_DYNSYM)
     flags = flags | D_PAGED;
@@ -83,17 +88,17 @@ bool		nodeifyElf32(Elf32_Ehdr *elf,
     {
       section = elf32_section(elf, i);
       if (!section)
-	return (false);
+	return (true);
       if (section->sh_type == SHT_NOBITS)
         {
 	  ++i;
 	  continue;
         }
-      *flags = checkSection(section, *flags);
+      *flags = checkSection(elf, section, *flags);
       if (isPrintableSection32(elf, section) &&
 	  section->sh_size != 0 &&
 	  !addDumpNode32(elf, section, root))
-	return (false);
+	return (true);
       ++i;
     }
   return (true);

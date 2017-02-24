@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:55:48 2017 brout_m
-** Last update Fri Feb 17 16:33:40 2017 brout_m
+** Last update Thu Feb 23 17:11:54 2017 marc brout
 */
 
 #include <stdio.h>
@@ -20,7 +20,7 @@ void		printList32(t_node const *root)
   cur = root;
   while (cur)
     {
-      if (cur->addr == 'w' || cur->type == 'U')
+      if (cur->type == 'w' || cur->type == 'U')
 	printf("         %c %s\n", cur->type, cur->symbol);
       else
         {

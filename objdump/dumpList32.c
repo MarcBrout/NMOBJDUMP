@@ -5,11 +5,12 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 17:30:27 2017 brout_m
-** Last update Sat Feb 18 18:48:26 2017 brout_m
+** Last update Fri Feb 24 08:13:39 2017 marc brout
 */
 
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #include "helpers32.h"
 #include "dump32.h"
 
@@ -70,18 +71,28 @@ static size_t		dumpChar(void *data,
   return (i);
 }
 
+static int countDigit(uint64_t num)
+{
+  char	       snum[100];
+
+  sprintf(snum, "%llx", (long long)num);
+  return (strlen(snum));
+}
+
 static void	dumpData(t_dump const *cur)
 {
   void		*data;
   uint64_t	off;
+  int		digit;
   size_t	i;
 
   i = 0;
   data = cur->data;
   off = cur->off;
+  digit = countDigit(off + cur->size);
   while (i < cur->size)
     {
-      printf(" %04llx", (long long)off);
+      printf(" %0*llx", digit > 4 ? digit : 4, (long long)off);
       dumpHexa(data, i, cur->size);
       i += dumpChar(data, i, cur->size);
       off += 16;
@@ -95,7 +106,7 @@ void		dumpList32(t_dump const *root)
   cur = root;
   while (cur)
     {
-      printf("Contents of section %s_:\n", cur->sh_name);
+      printf("Contents of section %s:\n", cur->sh_name);
       dumpData(cur);
       cur = cur->next;
     }
