@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:38:47 2017 brout_m
-** Last update Fri Feb 24 10:21:28 2017 marc brout
+** Last update Fri Feb 24 16:07:01 2017 marc brout
 */
 
 #ifndef COMMONS_H
@@ -59,6 +59,12 @@ bool isArchive(char *ar);
 int checkSize64(Elf64_Ehdr *elf, char const *prog,
 		char const *filename,
 		size_t size);
+int checkSectionHeaders64(Elf64_Ehdr *elf, char const *prog,
+			  char const *filename,
+			  size_t size);
+int checkSectionHeaders32(Elf32_Ehdr *elf, char const *prog,
+			  char const *filename,
+			  size_t size);
 int checkSize32(Elf32_Ehdr *elf, char const *prog,
 		char const *filename,
 		size_t size);

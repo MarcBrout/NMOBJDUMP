@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Sat Feb 18 18:35:45 2017 brout_m
-** Last update Fri Feb 24 10:22:05 2017 marc brout
+** Last update Fri Feb 24 16:10:18 2017 marc brout
 */
 
 #include <stdbool.h>
@@ -71,11 +71,13 @@ int		parseFile(const char * const prog, const char *file)
     return (1);
   if (isArchitecture64(data, true))
     {
-      if (checkSize64(data, prog, file, size) ||
+      if (checkSectionHeaders64(data, prog, file, size) ||
+	  checkSize64(data, prog, file, size) ||
 	  processElf64(data, file))
 	return (1);
     }
-  else if (checkSize32(data, prog, file, size) ||
+  else if (checkSectionHeaders32(data, prog, file, size) ||
+	   checkSize32(data, prog, file, size) ||
 	   processElf32(data, file))
     return (1);
   return (0);

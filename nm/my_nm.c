@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:54:21 2017 brout_m
-** Last update Fri Feb 24 10:21:55 2017 marc brout
+** Last update Fri Feb 24 16:09:57 2017 marc brout
 */
 
 #include <ar.h>
@@ -59,11 +59,13 @@ int		parseFile(const char * const prog,
     return (2);
   if (isArchitecture64(data, true))
     {
-      if (checkSize64(data, prog, file, size) ||
+      if (checkSectionHeaders64(data, prog, file, size) ||
+	  checkSize64(data, prog, file, size) ||
 	  processElf64(data, file, mult))
 	return (1);
     }
-  else if (checkSize32(data, prog, file, size) ||
+  else if (checkSectionHeaders32(data, prog, file, size) ||
+	   checkSize32(data, prog, file, size) ||
 	   processElf32(data, file, mult))
     return (1);
   return (0);

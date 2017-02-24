@@ -69,7 +69,7 @@ mv objdump_name my_objdump
 cp /usr/bin/objdump objdump_name
 ./objdump_name -sf tests/**/* > source 2> source
 rm objdump_name
-diff=`diff student source`
+diff=`diff student source -y`
 if [ -n "$diff" ]
 then
     echo "Test5: KO (diff stored in test5.output)"
