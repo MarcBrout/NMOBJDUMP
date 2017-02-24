@@ -5,7 +5,7 @@
 ** Login   <marc.brout@epitech.eu>
 **
 ** Started on  Fri Feb 17 15:44:01 2017 brout_m
-** Last update Fri Feb 24 10:22:33 2017 marc brout
+** Last update Fri Feb 24 10:41:08 2017 marc brout
 */
 
 #include <stddef.h>
@@ -71,7 +71,7 @@ bool		isElfValid(char const * const prog,
       elf->e_ident[EI_CLASS] == ELFCLASSNONE ||
       elf->e_ident[EI_VERSION] == EV_NONE) {
     if (nm)
-      fprintf(stderr, "%s: '%s': Unknown file format\n", prog, filename);
+      fprintf(stderr, "%s: %s: File format not recognized\n", prog, filename);
     else
       fprintf(stderr, "%s: %s: File format not recognized\n", prog, filename);
     return (false);
